@@ -6,19 +6,19 @@ itself.
 
 ## Features
 
-### Note
-
-This is a side project. I'm mainly driven to implement features in
-`ghtool` by my own need for them in my workflow. That said, though, if
-there's a feature that you'd like to see implemented, feel free to
-file an issue and I'm likely to work with you to get it working (or at
-least consider it seriously). I'll certainly accept pull requests if
-you develop a feature yourself.
+*Note*: This is a side project. I'm mainly driven to implement
+features in `ghtool` by my own need for them in my workflow. That
+said, though, if there's a feature that you'd like to see implemented,
+feel free to file an issue and I'm likely to work with you to get it
+working (or at least consider it seriously). I'll certainly accept
+pull requests if you develop a feature yourself.
 
 ### Labels
 
-- [ ] List the labels in a repository ([#3](https://github.com/sorenmortensen/ghtool/issues/3)).
-- [ ] Copy labels from one repository to another ([#4](https://github.com/sorenmortensen/ghtool/issues/4)).
+- [ ] List the labels in a repository
+      ([#3](https://github.com/sorenmortensen/ghtool/issues/3)).
+- [ ] Copy labels from one repository to another
+      ([#4](https://github.com/sorenmortensen/ghtool/issues/4)).
 
 ## hubcaps
 
