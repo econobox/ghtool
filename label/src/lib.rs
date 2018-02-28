@@ -25,29 +25,33 @@ pub mod copy;
 
 /// Details about this command.
 pub mod details {
-    use copy;
     use clap::{App, Arg};
+    use copy;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
-        App::new( name())
+        App::new(name())
             .version(version())
             .author(author())
             .about(description())
             .args(&args()[..])
-            .subcommand(
-                copy::details::app()
-            )
+            .subcommand(copy::details::app())
     }
 
     /// This command's name.
-    fn name() -> &'static str { "label" }
+    fn name() -> &'static str {
+        "label"
+    }
 
     /// This command's version.
-    fn version() -> &'static str { env!("CARGO_PKG_VERSION") }
+    fn version() -> &'static str {
+        env!("CARGO_PKG_VERSION")
+    }
 
     /// This command's author(s).
-    fn author() -> &'static str { env!("CARGO_PKG_AUTHORS") }
+    fn author() -> &'static str {
+        env!("CARGO_PKG_AUTHORS")
+    }
 
     /// This command's arguments.
     fn args() -> Vec<Arg<'static, 'static>> {
@@ -55,5 +59,7 @@ pub mod details {
     }
 
     /// This command's description.
-    fn description() -> &'static str { env!("CARGO_PKG_DESCRIPTION") }
+    fn description() -> &'static str {
+        env!("CARGO_PKG_DESCRIPTION")
+    }
 }

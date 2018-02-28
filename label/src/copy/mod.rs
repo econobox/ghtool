@@ -1,5 +1,5 @@
 //
-//  copy.rs
+//  copy/mod.rs
 //  ghtool-label
 //
 //  Created by Søren Mortensen on 28/02/2018.
@@ -19,6 +19,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+pub mod config;
+
 /// Details about this command.
 pub mod details {
     use clap::{App, Arg};
@@ -33,16 +35,24 @@ pub mod details {
     }
 
     /// This command's name.
-    fn name() -> &'static str { "copy" }
+    fn name() -> &'static str {
+        "copy"
+    }
 
     /// This command's version.
-    fn version() -> &'static str { env!("CARGO_PKG_VERSION") }
+    fn version() -> &'static str {
+        env!("CARGO_PKG_VERSION")
+    }
 
     /// This command's author(s).
-    fn author() -> &'static str { env!("CARGO_PKG_AUTHORS") }
+    fn author() -> &'static str {
+        env!("CARGO_PKG_AUTHORS")
+    }
 
     /// This command's description.
-    fn description() -> &'static str { "Copy labels from one repository to another" }
+    fn description() -> &'static str {
+        "Copy labels from one repository to another"
+    }
 
     /// This command's arguments.
     fn args() -> Vec<Arg<'static, 'static>> {
