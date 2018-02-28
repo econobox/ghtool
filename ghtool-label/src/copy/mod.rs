@@ -62,16 +62,6 @@ pub mod details {
                 .help("The repository to copy to, in the format \"user/repository\"")
                 .takes_value(true)
                 .required(true),
-            // --token
-            Arg::with_name("token")
-                .long("token")
-                .value_name("TOKEN")
-                .help(
-                    "GitHub personal access token that provides access to the repositories specified by <FROM> and \
-                    <TO>. Overrides any existing value from ~/.config/ghtool/config.toml"
-                )
-                .takes_value(true)
-                .required(true), //(!Config::file_exists()),
             // --clear
             Arg::with_name("clear")
                 .short("c")

@@ -18,10 +18,9 @@
 //  limitations under the License.
 //
 
-pub extern crate ghtool_label as label;
-pub extern crate ghtool_util as util;
-
 extern crate clap;
+extern crate ghtool_label as label;
+extern crate ghtool_util as util;
 
 fn main() {
     let _ = details::app().get_matches();
@@ -58,6 +57,17 @@ mod details {
 
     /// This app's arguments.
     fn args() -> Vec<Arg<'static, 'static>> {
-        vec![]
+        vec![
+            Arg::with_name("token")
+                .long("token")
+                .short("T")
+                .value_name("TOKEN")
+                .help(
+                    "GitHub personal access token that provides access to the repositories specified by <FROM> and \
+                    <TO>. Overrides any existing value from ~/.config/ghtool/config.toml"
+                )
+                .takes_value(true)
+                .required(true), //(!Config::file_exists()),
+        ]
     }
 }
