@@ -7,3 +7,4 @@ description = "Utilities for ghtool"
 publish = false
 
 [dependencies]
+regex = "0.2"

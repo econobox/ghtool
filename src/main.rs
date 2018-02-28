@@ -84,7 +84,7 @@ fn main() {
         ("", None) => {
             let _ = details::app().print_help();
             return;
-        },
+        }
         _ => unreachable!(),
     }
 }
@@ -92,32 +92,38 @@ fn main() {
 /// Details about this app.
 mod details {
     use clap::{App, Arg};
-    use label;
     use config::Config;
+    use label;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
-        App::new( name())
+        App::new(name())
             .version(version())
             .author(author())
             .about(description())
             .args(&args()[..])
-            .subcommand(
-                label::details::app()
-            )
+            .subcommand(label::details::app())
     }
 
     /// This app's name.
-    fn name() -> &'static str { env!("CARGO_PKG_NAME") }
+    fn name() -> &'static str {
+        env!("CARGO_PKG_NAME")
+    }
 
     /// This app's version.
-    fn version() -> &'static str { env!("CARGO_PKG_VERSION") }
+    fn version() -> &'static str {
+        env!("CARGO_PKG_VERSION")
+    }
 
     /// This app's author(s).
-    fn author() -> &'static str { env!("CARGO_PKG_AUTHORS") }
+    fn author() -> &'static str {
+        env!("CARGO_PKG_AUTHORS")
+    }
 
     /// This app's description.
-    fn description() -> &'static str { env!("CARGO_PKG_DESCRIPTION") }
+    fn description() -> &'static str {
+        env!("CARGO_PKG_DESCRIPTION")
+    }
 
     /// This app's arguments.
     fn args() -> Vec<Arg<'static, 'static>> {
