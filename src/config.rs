@@ -21,14 +21,14 @@
 //! The `config` module implements functionality for reading configuration information from a file in the user's home
 //! directory.
 
-use toml;
 use std::env;
-use std::fs::File;
-use std::path::PathBuf;
 use std::error::Error;
 use std::fmt;
+use std::fs::File;
 use std::io;
 use std::io::Read;
+use std::path::PathBuf;
+use toml;
 
 /// The user's configuration, including values loaded from disk and values loaded from flags at runtime.
 #[derive(Debug)]
