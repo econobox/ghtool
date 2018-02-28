@@ -18,3 +18,8 @@ you develop a feature yourself.
 It should be noted that this is essentially a glorified command-line
 interface for [`hubcaps`](https://github.com/softprops/hubcaps);
 `hubcaps` does all the heavy lifting.
+
+## License
+
+`ghtool` is licensed under the Apache-2.0 license. Please see the
+[LICENSE](LICENSE) file for more information.
