@@ -7,4 +7,4 @@ description = "Modify labels in a GitHub repository"
 
 [dependencies]
 clap = { version = "2.30", features = ["wrap_help"] }
-ghtool-util = { path = "../ghtool-util" }
+ghtool-util = { path = "../util" }
