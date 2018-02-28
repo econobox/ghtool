@@ -23,8 +23,6 @@ pub extern crate ghtool_util as util;
 
 extern crate clap;
 
-use clap::App;
-
 fn main() {
     let _ = details::app().get_matches();
 }
