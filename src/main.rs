@@ -30,6 +30,7 @@ fn main() {
 mod details {
     use clap::{App, Arg};
     use label;
+    use util::config::Config;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
@@ -64,10 +65,11 @@ mod details {
                 .value_name("TOKEN")
                 .help(
                     "GitHub personal access token that provides access to the repositories specified by <FROM> and \
-                    <TO>. Overrides any existing value from ~/.config/ghtool/config.toml"
+                    <TO>. Overrides any existing value from ~/.config/ghtool/config.toml. Not required if a \
+                    configuration file is found."
                 )
                 .takes_value(true)
-                .required(true), //(!Config::file_exists()),
+                .required(!Config::file_exists()),
         ]
     }
 }
