@@ -17,8 +17,8 @@ you develop a feature yourself.
 
 ### Labels
 
-- [ ] List the labels in a repository (#3).
-- [ ] Copy labels from one repository to another (#4).
+- [ ] List the labels in a repository ([#3](https://github.com/sorenmortensen/ghtool/issues/3)).
+- [ ] Copy labels from one repository to another ([#4](https://github.com/sorenmortensen/ghtool/issues/4)).
 
 ## hubcaps
 
