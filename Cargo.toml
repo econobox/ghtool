@@ -1,0 +1,11 @@
+[package]
+name = "ghtool"
+version = "0.1.0"
+authors = ["Søren Mortensen <soren@sorenmortensen.com>"]
+license = "Apache-2.0"
+description = "Tool for interacting with all the extra data associated with a GitHub repository that doesn't come from git itself"
+
+[dependencies]
+clap = { version = "2.30", features = ["wrap_help"] }
+ghtool-label = { path = "ghtool-label" }
+ghtool-util = { path = "ghtool-util" }

@@ -1,0 +1,11 @@
+[package]
+name = "ghtool-label"
+version = "0.1.0"
+authors = ["Søren Mortensen <soren@sorenmortensen.com>"]
+license = "Apache-2.0"
+description = "Modify labels in a repository"
+publish = false
+
+[dependencies]
+clap = { version = "2.30", features = ["wrap_help"] }
+ghtool-util = { path = "../ghtool-util" }
