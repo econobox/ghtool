@@ -9,3 +9,8 @@ description = "Tool for interacting with all the extra data associated with a Gi
 clap = { version = "2.30", features = ["wrap_help"] }
 ghtool-label = { path = "ghtool-label" }
 ghtool-util = { path = "ghtool-util" }
+log = "0.3"
+pretty_logger = "0.1"
+serde = "1.0"
+serde_derive = "1.0"
+toml = "0.4"

@@ -21,16 +21,79 @@
 extern crate clap;
 extern crate ghtool_label as label;
 extern crate ghtool_util as util;
+#[macro_use]
+extern crate log;
+extern crate pretty_logger;
+#[macro_use]
+extern crate serde_derive;
+extern crate toml;
+
+pub mod config;
+
+use config::{Config, RuntimeConfig};
 
 fn main() {
-    let _ = details::app().get_matches();
+    let matches = details::app().get_matches();
+
+    // Set the level of verbosity based on the -v flag.
+    match matches.occurrences_of("v") {
+        0 => pretty_logger::init_level(log::LogLevelFilter::Warn),
+        1 => pretty_logger::init_level(log::LogLevelFilter::Info),
+        2 => pretty_logger::init_level(log::LogLevelFilter::Debug),
+        3 => pretty_logger::init_level(log::LogLevelFilter::Trace),
+        _ => {
+            let _ = pretty_logger::init_to_defaults();
+            error!("Invalid verbosity level (maximum is -vvv)");
+            return;
+        }
+    }.expect("Could not initialise logging.");
+
+    info!("Using verbosity level: {}", log::max_log_level());
+
+    if Config::file_exists() {
+        info!("--token argument not required: config file found at default location");
+    }
+
+    let _config = RuntimeConfig {
+        config: match (matches.value_of("token"), Config::try_load()) {
+            (Some(token), _) => {
+                if Config::file_exists() {
+                    info!("Overriding access token in configuration file with value from --token argument");
+                } else {
+                    info!("Using access token provided by --token argument");
+                }
+
+                Config {
+                    access_token: String::from(token),
+                }
+            }
+            (None, Ok(config)) => {
+                info!("Using access token from configuration file");
+                config
+            }
+            (None, Err(err)) => {
+                error!("Could not read configuration file: {}", err);
+                return;
+            }
+        },
+    };
+
+    // Now go into the subcommand. Exit with an error if no subcommand was specified.
+    match matches.subcommand() {
+        ("label", Some(_label_matches)) => println!("`ghtool label` was used"),
+        ("", None) => {
+            let _ = details::app().print_help();
+            return;
+        },
+        _ => unreachable!(),
+    }
 }
 
 /// Details about this app.
 mod details {
     use clap::{App, Arg};
     use label;
-    use util::config::Config;
+    use config::Config;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
@@ -70,6 +133,10 @@ mod details {
                 )
                 .takes_value(true)
                 .required(!Config::file_exists()),
+            Arg::with_name("v")
+                .short("v")
+                .multiple(true)
+                .help("Sets the level of verbosity (up to -vvv)"),
         ]
     }
 }

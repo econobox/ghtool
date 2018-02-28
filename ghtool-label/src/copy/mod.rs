@@ -76,11 +76,6 @@ pub mod details {
                 .help(
                     "Automatic yes to prompts; assume \"yes\" as an answer to all prompts and run non-interactively.",
                 ),
-            // -v, -vv, -vvv
-            Arg::with_name("v")
-                .short("v")
-                .multiple(true)
-                .help("Sets the level of verbosity (up to -vvv)"),
         ]
     }
 }

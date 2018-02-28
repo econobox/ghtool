@@ -1,9 +1,9 @@
 //
 //  config.rs
-//  ghtool-util
+//  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
-//  Copyright © 2018 Søren Mortensen. All rights reserved.
+//  Copyright © 2018 Søren Mortensen.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -30,15 +30,11 @@ use std::fmt;
 use std::io;
 use std::io::Read;
 
-/// The user's configuration, including their [`Config`](struct.Config.html) and values loaded from flags at runtime.
+/// The user's configuration, including values loaded from disk and values loaded from flags at runtime.
 #[derive(Debug)]
 pub struct RuntimeConfig {
     /// Stored configuration such as the access token.
     pub config: Config,
-    /// The value of the -c flag (whether the destination repository should have its labels cleared before copying).
-    pub clear: bool,
-    /// The value of the -y flag (whether to assume yes to all prompts and run non-interactively).
-    pub assume_yes: bool,
 }
 
 impl RuntimeConfig {
@@ -54,12 +50,14 @@ pub struct Config {
 }
 
 impl Config {
+    /// Attempts to load and parse a configuration file from the default location.
     pub fn try_load() -> Result<Config, ConfigError> {
         config_contents().and_then(|contents| {
             toml::from_str::<Config>(&contents[..]).map_err(|err| ConfigError::ParseError(err))
         })
     }
 
+    /// Returns whether a configuration file exists at the default path.
     pub fn file_exists() -> bool {
         match config_path() {
             Some(path) => path.exists(),
@@ -76,14 +74,14 @@ fn config_path() -> Option<PathBuf> {
     })
 }
 
-/// Get a reference to the user's ghlabelcpy config file, if possible.
+/// Get a reference to the user's ghtool config file, if possible.
 fn config_file() -> Result<File, ConfigError> {
     config_path()
         .ok_or(ConfigError::FileMissing)
         .and_then(|path| File::open(path).map_err(|err| ConfigError::IoError(err)))
 }
 
-/// Get the contents of the user's ghlabelcpy config file as a `String`, if possible.
+/// Get the contents of the user's ghtool config file as a `String`, if possible.
 fn config_contents() -> Result<String, ConfigError> {
     config_file().and_then(|mut file| {
         let mut contents = String::new();
@@ -120,4 +118,3 @@ impl Error for ConfigError {
         }
     }
 }
-
