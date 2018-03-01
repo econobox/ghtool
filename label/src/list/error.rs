@@ -1,8 +1,8 @@
 //
-//  lib.rs
-//  ghtool-util
+//  list/error.rs
+//  ghtool-label
 //
-//  Created by Søren Mortensen on 28/02/2018.
+//  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,22 @@
 //  limitations under the License.
 //
 
-extern crate regex;
+use std::error::Error;
+use std::fmt;
 
-pub mod repo;
-pub mod error;
+#[derive(Debug)]
+pub enum ListError {
+
+}
+
+impl fmt::Display for ListError {
+    fn fmt(&self, _f: &mut fmt::Formatter) -> fmt::Result {
+        unimplemented!()
+    }
+}
+
+impl Error for ListError {
+    fn description(&self) -> &str {
+        unimplemented!()
+    }
+}

@@ -19,6 +19,7 @@
 //
 
 use regex::Regex;
+use std::fmt;
 
 /// The path to a GitHub repository, in the form "user/repository".
 pub struct Repo {
@@ -43,5 +44,11 @@ impl Repo {
                 _ => None,
             }
         })
+    }
+}
+
+impl fmt::Display for Repo {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}/{}", self.user, self.repo)
     }
 }

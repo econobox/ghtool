@@ -1,8 +1,8 @@
 //
-//  lib.rs
+//  list/mod.rs
 //  ghtool-label
 //
-//  Created by Søren Mortensen on 28/02/2018.
+//  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,40 +18,19 @@
 //  limitations under the License.
 //
 
-extern crate clap;
-extern crate ghtool_util as util;
-extern crate hubcaps;
-#[macro_use]
-extern crate log;
-
+pub mod config;
 pub mod error;
-pub mod copy;
-pub mod list;
 
-use self::error::Error;
-use clap::ArgMatches;
+use self::error::ListError;
 
-pub fn run<'a>(matches: &'a ArgMatches) -> Result<(), Error<'a>> {
-    match matches.subcommand() {
-        ("list", Some(list_matches)) => {
-            let config = list::config::Config::from_matches(&list_matches)
-                .map_err(|err| Error::ArgError(err))?;
-            list::run(config).map_err(|err| Error::ListError(err))
-        }
-        ("copy", Some(_copy_matches)) => Ok(()),
-        ("", None) => {
-            let _ = details::app().print_help();
-            Err(Error::NoSubcommand)
-        }
-        _ => unreachable!(),
-    }
+pub fn run(config: config::Config) -> Result<(), ListError> {
+    info!("Listing labels in {}...", config.repo);
+    Ok(())
 }
 
 /// Details about this command.
 pub mod details {
     use clap::{App, Arg};
-    use copy;
-    use list;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
@@ -60,13 +39,11 @@ pub mod details {
             .author(author())
             .about(description())
             .args(&args()[..])
-            .subcommand(list::details::app())
-            .subcommand(copy::details::app())
     }
 
     /// This command's name.
     fn name() -> &'static str {
-        "label"
+        "list"
     }
 
     /// This command's version.
@@ -79,13 +56,20 @@ pub mod details {
         env!("CARGO_PKG_AUTHORS")
     }
 
-    /// This command's arguments.
-    fn args() -> Vec<Arg<'static, 'static>> {
-        vec![]
-    }
-
     /// This command's description.
     fn description() -> &'static str {
-        env!("CARGO_PKG_DESCRIPTION")
+        "List labels in a repository"
+    }
+
+    /// This command's arguments.
+    fn args() -> Vec<Arg<'static, 'static>> {
+        vec![
+            Arg::with_name("repo")
+                .index(1)
+                .value_name("REPO")
+                .help("The repository, in the format \"user/repository\"")
+                .takes_value(true)
+                .required(true),
+        ]
     }
 }

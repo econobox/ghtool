@@ -1,8 +1,8 @@
 //
-//  copy/config.rs
-//  ghtool
+//  list/config.rs
+//  ghtool-label
 //
-//  Created by Søren Mortensen on 28/02/2018.
+//  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,35 +22,24 @@ use clap::ArgMatches;
 use util::error::ArgError;
 use util::repo::Repo;
 
-/// Configuration for the `label copy` command.
+/// Configuration for the `label list` command.
 pub struct Config {
-    /// The repository to copy labels from.
-    pub from_repo: Repo,
-    /// The repository to copy labels to.
-    pub to_repo: Repo,
+    /// The repository to list the labels from.
+    pub repo: Repo,
 }
 
 impl<'a> Config {
     /// Attempts to create a `Config` by parsing command-line argument matches.
     pub fn from_matches(matches: &'a ArgMatches) -> Result<Config, ArgError<'a>> {
-        let from_string = matches
-            .value_of("from")
-            .ok_or(ArgError::NoValue { arg: "from" })?;
+        let repo_string = matches
+            .value_of("repo")
+            .ok_or(ArgError::NoValue { arg: "repo" })?;
 
-        let to_string = matches
-            .value_of("to")
-            .ok_or(ArgError::NoValue { arg: "to" })?;
-
-        let from_repo = Repo::from_string(&from_string[..]).ok_or(ArgError::InvalidValue {
-            arg: "from",
-            value: from_string,
+        let repo = Repo::from_string(&repo_string[..]).ok_or(ArgError::InvalidValue {
+            arg: "repo",
+            value: repo_string,
         })?;
 
-        let to_repo = Repo::from_string(&to_string[..]).ok_or(ArgError::InvalidValue {
-            arg: "to",
-            value: to_string,
-        })?;
-
-        Ok(Config { from_repo, to_repo })
+        Ok(Config { repo })
     }
 }
