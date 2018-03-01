@@ -1,5 +1,5 @@
 //
-//  copy/config.rs
+//  label/copy/config.rs
 //  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
@@ -19,10 +19,9 @@
 //
 
 use clap::ArgMatches;
-use util::repo::Repo;
 
-use std::error::Error;
-use std::fmt;
+use util::error::ArgError;
+use util::repo::Repo;
 
 /// Configuration for the `label copy` command.
 pub struct Config {
@@ -34,52 +33,25 @@ pub struct Config {
 
 impl<'a> Config {
     /// Attempts to create a `Config` by parsing command-line argument matches.
-    pub fn from_matches(matches: &'a ArgMatches) -> Result<Config, ConfigError<'a>> {
+    pub fn from_matches(matches: &'a ArgMatches) -> Result<Config, ArgError<'a>> {
         let from_string = matches
             .value_of("from")
-            .ok_or(ConfigError::NoValue { arg: "from" })?;
+            .ok_or(ArgError::NoValue { arg: "from" })?;
 
         let to_string = matches
             .value_of("to")
-            .ok_or(ConfigError::NoValue { arg: "to" })?;
+            .ok_or(ArgError::NoValue { arg: "to" })?;
 
-        let from_repo = Repo::from_string(&from_string[..]).ok_or(ConfigError::InvalidValue {
+        let from_repo = Repo::from_string(&from_string[..]).ok_or(ArgError::InvalidValue {
             arg: "from",
             value: from_string,
         })?;
 
-        let to_repo = Repo::from_string(&to_string[..]).ok_or(ConfigError::InvalidValue {
+        let to_repo = Repo::from_string(&to_string[..]).ok_or(ArgError::InvalidValue {
             arg: "to",
             value: to_string,
         })?;
 
         Ok(Config { from_repo, to_repo })
-    }
-}
-
-/// Errors that could arise in the process of parsing arguments passed to `label copy`.
-#[derive(Debug)]
-pub enum ConfigError<'a> {
-    NoValue { arg: &'a str },
-    InvalidValue { arg: &'a str, value: &'a str },
-}
-
-impl<'a> fmt::Display for ConfigError<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            ConfigError::NoValue { ref arg } => write!(f, "No value for argument {}", arg),
-            ConfigError::InvalidValue { ref arg, ref value } => {
-                write!(f, "Invalid value {} provided for argument {}", value, arg)
-            }
-        }
-    }
-}
-
-impl<'a> Error for ConfigError<'a> {
-    fn description(&self) -> &str {
-        match *self {
-            ConfigError::NoValue { .. } => "NoValue",
-            ConfigError::InvalidValue { .. } => "InvalidValue",
-        }
     }
 }

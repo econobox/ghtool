@@ -1,8 +1,8 @@
 //
-//  lib.rs
-//  ghtool-label
+//  label/list/mod.rs
+//  ghtool
 //
-//  Created by Søren Mortensen on 28/02/2018.
+//  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +18,19 @@
 //  limitations under the License.
 //
 
-extern crate clap;
-extern crate ghtool_util as util;
+pub mod config;
+pub mod error;
 
-pub mod copy;
+use self::error::ListError;
+
+pub fn run(config: config::Config) -> Result<(), ListError> {
+    info!("Listing labels in {}...", config.repo);
+    Ok(())
+}
 
 /// Details about this command.
 pub mod details {
     use clap::{App, Arg};
-    use copy;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
@@ -35,12 +39,11 @@ pub mod details {
             .author(author())
             .about(description())
             .args(&args()[..])
-            .subcommand(copy::details::app())
     }
 
     /// This command's name.
     fn name() -> &'static str {
-        "label"
+        "list"
     }
 
     /// This command's version.
@@ -53,13 +56,20 @@ pub mod details {
         env!("CARGO_PKG_AUTHORS")
     }
 
-    /// This command's arguments.
-    fn args() -> Vec<Arg<'static, 'static>> {
-        vec![]
-    }
-
     /// This command's description.
     fn description() -> &'static str {
-        env!("CARGO_PKG_DESCRIPTION")
+        "List labels in a repository"
+    }
+
+    /// This command's arguments.
+    fn args() -> Vec<Arg<'static, 'static>> {
+        vec![
+            Arg::with_name("repo")
+                .index(1)
+                .value_name("REPO")
+                .help("The repository, in the format \"user/repository\"")
+                .takes_value(true)
+                .required(true),
+        ]
     }
 }

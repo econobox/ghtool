@@ -1,5 +1,5 @@
 //
-//  repo.rs
+//  util/repo.rs
 //  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
@@ -20,6 +20,8 @@
 
 use regex::Regex;
 
+use std::fmt;
+
 /// The path to a GitHub repository, in the form "user/repository".
 pub struct Repo {
     /// The username of the repository owner.
@@ -29,7 +31,7 @@ pub struct Repo {
 }
 
 impl Repo {
-    /// Attemps to parse a `String` to create a `Repo`.
+    /// Attemps to parse a `String` to create a `Repo`. The string should be in the format "user/repository".
     pub fn from_string(string: &str) -> Option<Repo> {
         // A regular expression for matching "user/repo"-style repository paths.
         let repo_path = Regex::new(r"^([A-Za-z\-_]+)/([A-Za-z\-_]+)").unwrap();
@@ -43,5 +45,11 @@ impl Repo {
                 _ => None,
             }
         })
+    }
+}
+
+impl fmt::Display for Repo {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}/{}", self.user, self.repo)
     }
 }

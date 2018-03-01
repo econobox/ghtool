@@ -19,16 +19,18 @@
 //
 
 extern crate clap;
-extern crate ghtool_label as label;
-extern crate ghtool_util as util;
+extern crate hubcaps;
 #[macro_use]
 extern crate log;
 extern crate pretty_logger;
+extern crate regex;
 #[macro_use]
 extern crate serde_derive;
 extern crate toml;
 
 pub mod config;
+pub mod label;
+pub mod util;
 
 use config::{Config, RuntimeConfig};
 
@@ -58,7 +60,9 @@ fn main() {
         config: match (matches.value_of("token"), Config::try_load()) {
             (Some(token), _) => {
                 if Config::file_exists() {
-                    info!("Overriding access token in configuration file with value from --token argument");
+                    info!(
+                        "Overriding access token in configuration file with value from --token argument"
+                    );
                 } else {
                     info!("Using access token provided by --token argument");
                 }
@@ -80,7 +84,9 @@ fn main() {
 
     // Now go into the subcommand. Exit with an error if no subcommand was specified.
     match matches.subcommand() {
-        ("label", Some(_label_matches)) => println!("`ghtool label` was used"),
+        ("label", Some(label_matches)) => {
+            let _ = label::run(&label_matches).expect("Whoops");
+        }
         ("", None) => {
             let _ = details::app().print_help();
             return;
