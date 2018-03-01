@@ -1,6 +1,6 @@
 //
-//  lib.rs
-//  ghtool-util
+//  util/mod.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
 //  Copyright © 2018 Søren Mortensen.
@@ -17,8 +17,6 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-
-extern crate regex;
 
 pub mod repo;
 pub mod error;

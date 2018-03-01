@@ -1,6 +1,6 @@
 //
-//  list/mod.rs
-//  ghtool-label
+//  label/list/mod.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.

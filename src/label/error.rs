@@ -1,6 +1,6 @@
 //
-//  error.rs
-//  ghtool-label
+//  label/error.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
@@ -18,9 +18,10 @@
 //  limitations under the License.
 //
 
-use list::error::ListError;
 use std::error;
 use std::fmt;
+
+use super::list::error::ListError;
 use util::error::ArgError;
 
 #[derive(Debug)]

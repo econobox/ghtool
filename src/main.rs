@@ -19,16 +19,18 @@
 //
 
 extern crate clap;
-extern crate ghtool_label as label;
-extern crate ghtool_util as util;
+extern crate hubcaps;
 #[macro_use]
 extern crate log;
 extern crate pretty_logger;
+extern crate regex;
 #[macro_use]
 extern crate serde_derive;
 extern crate toml;
 
 pub mod config;
+pub mod label;
+pub mod util;
 
 use config::{Config, RuntimeConfig};
 

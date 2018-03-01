@@ -1,6 +1,6 @@
 //
-//  list/config.rs
-//  ghtool-label
+//  label/list/config.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
@@ -19,6 +19,7 @@
 //
 
 use clap::ArgMatches;
+
 use util::error::ArgError;
 use util::repo::Repo;
 

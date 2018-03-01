@@ -1,6 +1,6 @@
 //
-//  lib.rs
-//  ghtool-label
+//  label/mod.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
 //  Copyright © 2018 Søren Mortensen.
@@ -18,18 +18,13 @@
 //  limitations under the License.
 //
 
-extern crate clap;
-extern crate ghtool_util as util;
-extern crate hubcaps;
-#[macro_use]
-extern crate log;
-
-pub mod error;
 pub mod copy;
+pub mod error;
 pub mod list;
 
-use self::error::Error;
 use clap::ArgMatches;
+
+use self::error::Error;
 
 pub fn run<'a>(matches: &'a ArgMatches) -> Result<(), Error<'a>> {
     match matches.subcommand() {
@@ -50,8 +45,6 @@ pub fn run<'a>(matches: &'a ArgMatches) -> Result<(), Error<'a>> {
 /// Details about this command.
 pub mod details {
     use clap::{App, Arg};
-    use copy;
-    use list;
 
     /// This command's app definition.
     pub fn app() -> App<'static, 'static> {
@@ -60,8 +53,8 @@ pub mod details {
             .author(author())
             .about(description())
             .args(&args()[..])
-            .subcommand(list::details::app())
-            .subcommand(copy::details::app())
+            .subcommand(super::list::details::app())
+            .subcommand(super::copy::details::app())
     }
 
     /// This command's name.

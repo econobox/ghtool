@@ -1,5 +1,5 @@
 //
-//  copy/config.rs
+//  label/copy/config.rs
 //  ghtool
 //
 //  Created by Søren Mortensen on 28/02/2018.
@@ -19,6 +19,7 @@
 //
 
 use clap::ArgMatches;
+
 use util::error::ArgError;
 use util::repo::Repo;
 

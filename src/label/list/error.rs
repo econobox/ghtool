@@ -1,6 +1,6 @@
 //
-//  list/error.rs
-//  ghtool-label
+//  label/list/error.rs
+//  ghtool
 //
 //  Created by Søren Mortensen on 01/03/2018.
 //  Copyright © 2018 Søren Mortensen.
