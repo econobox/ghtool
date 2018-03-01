@@ -32,7 +32,7 @@ pub mod config;
 pub mod label;
 pub mod util;
 
-use config::{Config, RuntimeConfig};
+use config::{Config, IntoConfig, StoredConfig};
 
 fn main() {
     let matches = details::app().get_matches();
@@ -52,40 +52,34 @@ fn main() {
 
     info!("Using verbosity level: {}", log::max_log_level());
 
-    if Config::file_exists() {
+    if StoredConfig::file_exists() {
         info!("--token argument not required: config file found at default location");
     }
 
-    let _config = RuntimeConfig {
-        config: match (matches.value_of("token"), Config::try_load()) {
-            (Some(token), _) => {
-                if Config::file_exists() {
-                    info!(
-                        "Overriding access token in configuration file with value from --token argument"
-                    );
-                } else {
-                    info!("Using access token provided by --token argument");
-                }
-
-                Config {
-                    access_token: String::from(token),
-                }
-            }
-            (None, Ok(config)) => {
-                info!("Using access token from configuration file");
-                config
-            }
-            (None, Err(err)) => {
-                error!("Could not read configuration file: {}", err);
-                return;
+    let config = match (matches.value_of("token"), StoredConfig::try_load()) {
+        (Some(token), Ok(_)) => {
+            info!("Overriding access token in configuration file with value from --token argument");
+            Config {
+                access_token: token.to_owned(),
             }
         },
+        (Some(token), Err(_)) => {
+            info!("Using access token provided by --token argument");
+            Config {
+                access_token: token.to_owned(),
+            }
+        },
+        (None, Ok(stored_config)) => IntoConfig::from(stored_config).build(),
+        (None, Err(err)) => {
+            error!("Could not read configuration file: {}", err);
+            return;
+        }
     };
 
     // Now go into the subcommand. Exit with an error if no subcommand was specified.
     match matches.subcommand() {
         ("label", Some(label_matches)) => {
-            let _ = label::run(&label_matches).expect("Whoops");
+            let _ = label::run(config, label_matches);
         }
         ("", None) => {
             let _ = details::app().print_help();
@@ -98,7 +92,7 @@ fn main() {
 /// Details about this app.
 mod details {
     use clap::{App, Arg};
-    use config::Config;
+    use config::StoredConfig;
     use label;
 
     /// This command's app definition.
@@ -144,7 +138,7 @@ mod details {
                     configuration file is found."
                 )
                 .takes_value(true)
-                .required(!Config::file_exists()),
+                .required(!StoredConfig::file_exists()),
             Arg::with_name("v")
                 .short("v")
                 .multiple(true)

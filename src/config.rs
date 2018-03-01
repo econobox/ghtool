@@ -32,28 +32,50 @@ use toml;
 
 /// The user's configuration, including values loaded from disk and values loaded from flags at runtime.
 #[derive(Debug)]
-pub struct RuntimeConfig {
-    /// Stored configuration such as the access token.
-    pub config: Config,
-}
-
-impl RuntimeConfig {
-    pub fn access_token(&self) -> &String {
-        &self.config.access_token
-    }
-}
-
-/// The user's configuration, loaded from disk where it is stored in TOML format.
-#[derive(Debug, Deserialize)]
 pub struct Config {
     pub access_token: String,
 }
 
 impl Config {
+    pub fn access_token(&self) -> &String {
+        &self.access_token
+    }
+}
+
+pub struct IntoConfig {
+    access_token: String,
+}
+
+impl IntoConfig {
+    pub fn default(access_token: String) -> IntoConfig {
+        IntoConfig { access_token }
+    }
+
+    pub fn build(self) -> Config {
+        Config {
+            access_token: self.access_token,
+        }
+    }
+}
+
+impl From<StoredConfig> for IntoConfig {
+    fn from(stored: StoredConfig) -> Self {
+        IntoConfig::default(stored.access_token)
+    }
+}
+
+/// The user's configuration, loaded from disk where it is stored in TOML format.
+#[derive(Debug, Deserialize)]
+pub struct StoredConfig {
+    access_token: String,
+}
+
+impl StoredConfig {
     /// Attempts to load and parse a configuration file from the default location.
-    pub fn try_load() -> Result<Config, ConfigError> {
+    pub fn try_load() -> Result<StoredConfig, ConfigError> {
         config_contents().and_then(|contents| {
-            toml::from_str::<Config>(&contents[..]).map_err(|err| ConfigError::ParseError(err))
+            toml::from_str::<StoredConfig>(&contents[..])
+                .map_err(|err| ConfigError::ParseError(err))
         })
     }
 
@@ -86,8 +108,8 @@ fn config_contents() -> Result<String, ConfigError> {
     config_file().and_then(|mut file| {
         let mut contents = String::new();
         file.read_to_string(&mut contents)
-            .map_err(|err| ConfigError::IoError(err))?;
-        Ok(contents)
+            .map_err(|err| ConfigError::IoError(err))
+            .and(Ok(contents))
     })
 }
 
