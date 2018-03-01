@@ -7,8 +7,8 @@ description = "Tool for interacting with all the extra data associated with a Gi
 
 [dependencies]
 clap = { version = "2.30", features = ["wrap_help"] }
-ghtool-label = { path = "label" }
-ghtool-util = { path = "util" }
+ghtool-label = { path = "label", version = "0.1.0" }
+ghtool-util = { path = "util", version = "0.1.0" }
 log = "0.3"
 pretty_logger = "0.1"
 serde = "1.0"
