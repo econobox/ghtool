@@ -7,10 +7,12 @@ description = "Tool for interacting with all the extra data associated with a Gi
 
 [dependencies]
 clap = { version = "2.30", features = ["wrap_help"] }
+error-chain = "0.11"
 hubcaps = "0.4"
 log = "0.3"
 pretty_logger = "0.1"
 regex = "0.2"
 serde = "1.0"
 serde_derive = "1.0"
+tokio-core = "0.1"
 toml = "0.4"

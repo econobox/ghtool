@@ -19,6 +19,7 @@
 //
 
 extern crate clap;
+extern crate error_chain;
 extern crate hubcaps;
 #[macro_use]
 extern crate log;
@@ -26,6 +27,7 @@ extern crate pretty_logger;
 extern crate regex;
 #[macro_use]
 extern crate serde_derive;
+extern crate tokio_core;
 extern crate toml;
 
 pub mod config;
@@ -62,13 +64,13 @@ fn main() {
             Config {
                 access_token: token.to_owned(),
             }
-        },
+        }
         (Some(token), Err(_)) => {
             info!("Using access token provided by --token argument");
             Config {
                 access_token: token.to_owned(),
             }
-        },
+        }
         (None, Ok(stored_config)) => IntoConfig::from(stored_config).build(),
         (None, Err(err)) => {
             error!("Could not read configuration file: {}", err);
@@ -78,9 +80,12 @@ fn main() {
 
     // Now go into the subcommand. Exit with an error if no subcommand was specified.
     match matches.subcommand() {
-        ("label", Some(label_matches)) => {
-            let _ = label::run(config, label_matches);
-        }
+        ("label", Some(label_matches)) => match label::run(config, label_matches) {
+            Ok(()) => (),
+            Err(err) => {
+                println!("{}", err);
+            }
+        },
         ("", None) => {
             let _ = details::app().print_help();
             return;
