@@ -20,6 +20,7 @@
 
 extern crate clap;
 extern crate error_chain;
+extern crate futures;
 extern crate hubcaps;
 #[macro_use]
 extern crate log;
