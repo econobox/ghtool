@@ -18,22 +18,32 @@
 //  limitations under the License.
 //
 
+use hubcaps::errors::Error as HubcapsError;
+
 use std::error::Error;
 use std::fmt;
+use std::io::Error as IoError;
 
 #[derive(Debug)]
 pub enum ListError {
-
+    IoError(IoError),
+    HubcapsError(HubcapsError),
 }
 
 impl fmt::Display for ListError {
-    fn fmt(&self, _f: &mut fmt::Formatter) -> fmt::Result {
-        unimplemented!()
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            ListError::IoError(ref io_err) => write!(f, "IO error: {}", io_err),
+            ListError::HubcapsError(ref hc_err) => write!(f, "Hubcaps error: {}", hc_err),
+        }
     }
 }
 
 impl Error for ListError {
     fn description(&self) -> &str {
-        unimplemented!()
+        match *self {
+            ListError::IoError(_) => "IoError",
+            ListError::HubcapsError(_) => "HubcapsError",
+        }
     }
 }
