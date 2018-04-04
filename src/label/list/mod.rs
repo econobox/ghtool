@@ -22,6 +22,7 @@ pub mod config;
 pub mod error;
 
 use self::error::ListError;
+use futures::Stream;
 use hubcaps::{Credentials, Github};
 use tokio_core::reactor::Core;
 
@@ -33,21 +34,21 @@ pub fn run(config: config::Config) -> Result<(), ListError> {
     let github = Github::new(
         concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
         Some(Credentials::Token(
-            config.parent_config.access_token().to_owned(),
+            config.parent_config.access_token().clone(),
         )),
         &core.handle(),
     );
 
-    let labels = core.run(
+    core.run(
         github
             .repo(config.repo.user, config.repo.repo)
             .labels()
-            .list(),
-    );
-
-    labels
-        .map(|labels| labels.iter().for_each(|l| println!("{}", l.name)))
-        .map_err(|err| ListError::HubcapsError(err))
+            .iter()
+            .for_each(|label| {
+                println!("{}", label.name);
+                Ok(())
+            })
+    ).map_err(|err| ListError::HubcapsError(err))
 }
 
 /// Details about this command.
