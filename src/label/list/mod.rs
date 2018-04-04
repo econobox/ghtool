@@ -48,7 +48,9 @@ pub fn run(config: config::Config) -> Result<(), ListError> {
                 println!("{}", label.name);
                 Ok(())
             })
-    ).map_err(|err| ListError::HubcapsError(err))
+    ).map_err(|err| ListError::HubcapsError(err))?;
+
+    Ok(())
 }
 
 /// Details about this command.
