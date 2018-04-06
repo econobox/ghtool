@@ -47,7 +47,7 @@ pub fn run(config: config::Config) -> Result<(), ListError> {
             .for_each(|label| {
                 println!("{}", label.name);
                 Ok(())
-            })
+            }),
     ).map_err(|err| ListError::HubcapsError(err))?;
 
     Ok(())

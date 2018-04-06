@@ -19,6 +19,59 @@
 //
 
 pub mod config;
+pub mod error;
+
+use self::config::Config;
+use self::error::CopyError;
+
+use hubcaps::labels::LabelOptions;
+use hubcaps::{Credentials, Github};
+use tokio_core::reactor::Core;
+
+pub fn run(config: Config) -> Result<(), CopyError> {
+    info!(
+        "Copying labels from {from} to {to}",
+        from = config.from_repo,
+        to = config.to_repo
+    );
+
+    let mut core = Core::new().map_err(|err| CopyError::IoError(err))?;
+
+    let github = Github::new(
+        concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
+        Some(Credentials::Token(
+            config.parent_config.access_token().clone(),
+        )),
+        &core.handle(),
+    );
+
+    let (from_repo, to_repo) = (config.from_repo, config.to_repo);
+
+    core.run(
+        github
+            .repo(from_repo.user, from_repo.repo.clone())
+            .labels()
+            .list(),
+    )?
+        .iter()
+        .map(|from_label| {
+            info!("Found label \"{}\"", from_label.name);
+
+            github
+                .repo(to_repo.user.clone(), to_repo.repo.clone())
+                .labels()
+                .create(&LabelOptions::new(
+                    from_label.name.clone(),
+                    from_label.color.clone(),
+                ))
+        })
+        .for_each(|to_create| match core.run(to_create) {
+            Ok(label) => println!("Copied label \"{}\"", label.name),
+            Err(err) => error!("Error: {}", err),
+        });
+
+    Ok(())
+}
 
 /// Details about this command.
 pub mod details {
@@ -78,6 +131,15 @@ pub mod details {
                 .long("clear")
                 .help(
                     "Clear the existing labels from the repository specified by <TO> before copying the new ones"
+                ),
+            // --merge
+            Arg::with_name("merge")
+                .short("m")
+                .long("merge")
+                .help(
+                    "Attempt to merge the existing labels in the repository specified by <TO> with the ones being \
+                    copied. Unless the --yes flag is specified, confirmation will be requested before modifying each \
+                    existing label."
                 ),
             // --yes
             Arg::with_name("yes")

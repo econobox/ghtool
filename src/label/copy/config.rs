@@ -20,11 +20,13 @@
 
 use clap::ArgMatches;
 
+use config::Config as ParentConfig;
 use util::error::ArgError;
 use util::repo::Repo;
 
 /// Configuration for the `label copy` command.
 pub struct Config {
+    pub parent_config: ParentConfig,
     /// The repository to copy labels from.
     pub from_repo: Repo,
     /// The repository to copy labels to.
@@ -33,7 +35,10 @@ pub struct Config {
 
 impl<'a> Config {
     /// Attempts to create a `Config` by parsing command-line argument matches.
-    pub fn from_matches(matches: &'a ArgMatches) -> Result<Config, ArgError<'a>> {
+    pub fn from_matches(
+        parent_config: ParentConfig,
+        matches: &'a ArgMatches,
+    ) -> Result<Config, ArgError<'a>> {
         let from_string = matches
             .value_of("from")
             .ok_or(ArgError::NoValue { arg: "from" })?;
@@ -52,6 +57,10 @@ impl<'a> Config {
             value: to_string,
         })?;
 
-        Ok(Config { from_repo, to_repo })
+        Ok(Config {
+            parent_config,
+            from_repo,
+            to_repo,
+        })
     }
 }
