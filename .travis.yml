@@ -11,8 +11,10 @@ jobs:
       cache: cargo
     - language: rust
       rust: beta
+      cache: cargo
     - language: rust
       rust: nightly
+      cache: cargo
   allow_failures:
     - rust: nightly
   fast_finish: true
