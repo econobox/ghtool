@@ -11,6 +11,7 @@ matrix:
 jobs:
   include:
     - stage: danger
+      before_install: skip
       install: bundle install
       script: bundle exec danger
 stages:
