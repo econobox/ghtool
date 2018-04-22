@@ -13,6 +13,7 @@ jobs:
   include:
     - stage: danger
       rvm: 2.5.1
+      rust:
       install: bundle install
       script: bundle exec danger
 stages:
