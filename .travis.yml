@@ -5,13 +5,16 @@ jobs:
       rvm: 2.5.1
       install: bundle install
       script: bundle exec danger
-    - language: rust
+    - stage: test
+      language: rust
       rust: stable
       cache: cargo
-    - language: rust
+    - stage: test
+      language: rust
       rust: beta
       cache: cargo
-    - language: rust
+    - stage: test
+      language: rust
       rust: nightly
       cache: cargo
   allow_failures:
