@@ -1,24 +1,42 @@
-language: rust
-
-rust:
-  - stable
-  - beta
-  - nightly
-cache: cargo
 matrix:
+  include:
+    - language: rust
+      rust: stable
+      cache: cargo
+    - language: rust
+      rust: beta
+      cache: cargo
+    - language: rust
+      rust: nightly
+      cache: cargo
+    - language: ruby
+      rvm: 2.5.1
+      install: bundle install
+      script: bundle exec danger
   allow_failures:
     - rust: nightly
   fast_finish: true
-jobs:
-  include:
-    - stage: danger
-      rvm: 2.5.1
-      rust:
-      install: bundle install
-      script: bundle exec danger
-stages:
-  - danger
-  - test
+
+# rust:
+#   - stable
+#   - beta
+#   - nightly
+# cache: cargo
+# matrix:
+#   allow_failures:
+#     - rust: nightly
+#   fast_finish: true
+# jobs:
+#   include:
+#     - stage: danger
+#       rvm: 2.5.1
+#       rust:
+#       cache:
+#       install: bundle install
+#       script: bundle exec danger
+# stages:
+#   - danger
+#   - test
 
 notifications:
   email: false
