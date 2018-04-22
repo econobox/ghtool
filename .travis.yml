@@ -1,11 +1,28 @@
-language: rust
-rust:
-  - stable
-  - beta
-  - nightly
-cache: cargo
-matrix:
+jobs:
+  include:
+    - stage: danger
+      language: ruby
+      rvm: 2.5.1
+      install: bundle install
+      script: bundle exec danger
+      if: type = pull_request
+    - stage: test
+      language: rust
+      rust: stable
+      cache: cargo
+    - language: rust
+      rust: beta
+      cache: cargo
+    - language: rust
+      rust: nightly
+      cache: cargo
   allow_failures:
     - rust: nightly
+  fast_finish: true
+
+stages:
+  - danger
+  - test
+
 notifications:
   email: false
