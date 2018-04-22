@@ -1,5 +1,10 @@
-matrix:
+jobs:
   include:
+    - stage: danger
+      language: ruby
+      rvm: 2.5.1
+      install: bundle install
+      script: bundle exec danger
     - language: rust
       rust: stable
       cache: cargo
@@ -9,13 +14,13 @@ matrix:
     - language: rust
       rust: nightly
       cache: cargo
-    - language: ruby
-      rvm: 2.5.1
-      install: bundle install
-      script: bundle exec danger
   allow_failures:
     - rust: nightly
   fast_finish: true
+
+stages:
+  - danger
+  - test
 
 # rust:
 #   - stable
