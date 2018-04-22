@@ -22,9 +22,34 @@ pub mod config;
 pub mod error;
 
 use self::error::ListError;
+use futures::Stream;
+use hubcaps::{Credentials, Github};
+use tokio_core::reactor::Core;
 
 pub fn run(config: config::Config) -> Result<(), ListError> {
     info!("Listing labels in {}...", config.repo);
+
+    let mut core = Core::new().map_err(|err| ListError::IoError(err))?;
+
+    let github = Github::new(
+        concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION")),
+        Some(Credentials::Token(
+            config.parent_config.access_token().clone(),
+        )),
+        &core.handle(),
+    );
+
+    core.run(
+        github
+            .repo(config.repo.user, config.repo.repo)
+            .labels()
+            .iter()
+            .for_each(|label| {
+                println!("{}", label.name);
+                Ok(())
+            }),
+    ).map_err(|err| ListError::HubcapsError(err))?;
+
     Ok(())
 }
 

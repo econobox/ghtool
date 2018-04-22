@@ -25,11 +25,12 @@ pub mod list;
 use clap::ArgMatches;
 
 use self::error::Error;
+use config::Config;
 
-pub fn run<'a>(matches: &'a ArgMatches) -> Result<(), Error<'a>> {
+pub fn run<'a>(parent_config: Config, matches: &'a ArgMatches) -> Result<(), Error<'a>> {
     match matches.subcommand() {
         ("list", Some(list_matches)) => {
-            let config = list::config::Config::from_matches(&list_matches)
+            let config = list::config::Config::from_matches(parent_config, &list_matches)
                 .map_err(|err| Error::ArgError(err))?;
             list::run(config).map_err(|err| Error::ListError(err))
         }

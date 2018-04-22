@@ -20,18 +20,23 @@
 
 use clap::ArgMatches;
 
+use config::Config as ParentConfig;
 use util::error::ArgError;
 use util::repo::Repo;
 
 /// Configuration for the `label list` command.
 pub struct Config {
+    pub parent_config: ParentConfig,
     /// The repository to list the labels from.
     pub repo: Repo,
 }
 
 impl<'a> Config {
     /// Attempts to create a `Config` by parsing command-line argument matches.
-    pub fn from_matches(matches: &'a ArgMatches) -> Result<Config, ArgError<'a>> {
+    pub fn from_matches(
+        parent_config: ParentConfig,
+        matches: &'a ArgMatches,
+    ) -> Result<Config, ArgError<'a>> {
         let repo_string = matches
             .value_of("repo")
             .ok_or(ArgError::NoValue { arg: "repo" })?;
@@ -41,6 +46,9 @@ impl<'a> Config {
             value: repo_string,
         })?;
 
-        Ok(Config { repo })
+        Ok(Config {
+            parent_config,
+            repo,
+        })
     }
 }

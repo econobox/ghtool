@@ -34,7 +34,7 @@ impl Repo {
     /// Attemps to parse a `String` to create a `Repo`. The string should be in the format "user/repository".
     pub fn from_string(string: &str) -> Option<Repo> {
         // A regular expression for matching "user/repo"-style repository paths.
-        let repo_path = Regex::new(r"^([A-Za-z\-_]+)/([A-Za-z\-_]+)").unwrap();
+        let repo_path = Regex::new(r"^([A-Za-z0-9\-_]+)/([A-Za-z0-9\-_]+)").unwrap();
 
         repo_path.captures(&string[..]).and_then(|captures| {
             match (captures.get(1), captures.get(2)) {
