@@ -12,7 +12,7 @@ matrix:
 jobs:
   include:
     - stage: danger
-      before_install: skip
+      rvm: 2.5.1
       install: bundle install
       script: bundle exec danger
 stages:
