@@ -9,14 +9,8 @@ jobs:
       language: rust
       rust: stable
       cache: cargo
-    - stage: test
-      language: rust
-      rust: beta
-      cache: cargo
-    - stage: test
-      language: rust
-      rust: nightly
-      cache: cargo
+    - rust: beta
+    - rust: nightly
   allow_failures:
     - rust: nightly
   fast_finish: true
@@ -24,27 +18,6 @@ jobs:
 stages:
   - danger
   - test
-
-# rust:
-#   - stable
-#   - beta
-#   - nightly
-# cache: cargo
-# matrix:
-#   allow_failures:
-#     - rust: nightly
-#   fast_finish: true
-# jobs:
-#   include:
-#     - stage: danger
-#       rvm: 2.5.1
-#       rust:
-#       cache:
-#       install: bundle install
-#       script: bundle exec danger
-# stages:
-#   - danger
-#   - test
 
 notifications:
   email: false
