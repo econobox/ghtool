@@ -8,6 +8,7 @@ cache: cargo
 matrix:
   allow_failures:
     - rust: nightly
+  fast_finish: true
 jobs:
   include:
     - stage: danger
