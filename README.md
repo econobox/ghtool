@@ -20,6 +20,31 @@ pull requests if you develop a feature yourself.
 - [ ] Copy labels from one repository to another
       ([#4](https://github.com/sorenmortensen/ghtool/issues/4)).
 
+## Usage
+
+```
+ghtool 0.1.0
+Søren Mortensen <soren@sorenmortensen.com>
+Tool for interacting with all the extra data associated with a GitHub repository that doesn't come from git itself
+
+USAGE:
+    ghtool [FLAGS] [OPTIONS] [SUBCOMMAND]
+
+FLAGS:
+    -h, --help       Prints help information
+    -v               Sets the level of verbosity (up to -vvv)
+    -V, --version    Prints version information
+
+OPTIONS:
+    -T, --token <TOKEN>    GitHub personal access token that provides access to the repositories specified by <FROM>
+                           and <TO>. Overrides any existing value from ~/.config/ghtool/config.toml. Not required if a
+                           configuration file is found.
+
+SUBCOMMANDS:
+    help     Prints this message or the help of the given subcommand(s)
+    label    Make modifications to the issue labels in a GitHub repository
+```
+
 ## hubcaps
 
 It should be noted that this is essentially a glorified command-line
