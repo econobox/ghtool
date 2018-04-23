@@ -32,7 +32,7 @@ jobs:
             travis-cargo doc
       after_success:
         - travis-cargo doc-upload
-      if: type = push AND branch IN (master, travis-docs)
+      if: type = push AND branch IN (master, develop)
   allow_failures:
     - rust: nightly
   fast_finish: true
