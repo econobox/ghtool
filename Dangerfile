@@ -13,3 +13,5 @@ warn("Big PR") if git.lines_of_code > 500
 
 # Check for/format of Changelog changes.
 changelog.check
+
+fail("Test failure!")
