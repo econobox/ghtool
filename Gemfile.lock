@@ -25,6 +25,8 @@ GEM
       terminal-table (~> 1)
     danger-changelog (0.2.1)
       danger-plugin-api (~> 1.0)
+    danger-mention (0.6.1)
+      danger (>= 2.0.0)
     danger-plugin-api (1.0.0)
       danger (> 2.0)
     danger-welcome_message (0.0.1)
@@ -55,6 +57,7 @@ PLATFORMS
 DEPENDENCIES
   danger!
   danger-changelog!
+  danger-mention!
   danger-welcome_message!
 
 BUNDLED WITH

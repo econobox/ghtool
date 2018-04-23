@@ -4,7 +4,7 @@ jobs:
       language: ruby
       rvm: 2.5.1
       install: bundle install
-      script: bundle exec danger
+      script: bundle exec danger --fail-on-errors=true
       if: type = pull_request
     - stage: test
       language: rust
