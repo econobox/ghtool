@@ -13,9 +13,11 @@ jobs:
     - language: rust
       rust: beta
       cache: cargo
+      if: type = pull_request AND branch = master
     - language: rust
       rust: nightly
       cache: cargo
+      if: type = pull_request AND branch = master
   allow_failures:
     - rust: nightly
   fast_finish: true
