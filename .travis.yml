@@ -4,7 +4,7 @@ jobs:
       language: ruby
       rvm: 2.5.1
       install: bundle install
-      script: bundle exec danger --fail-on-errors=true
+      script: bundle exec danger --fail-on-errors=true --remove-previous-comments
       if: type = pull_request
     - stage: test
       language: rust
