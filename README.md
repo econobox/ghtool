@@ -28,7 +28,7 @@ interface for [`hubcaps`](https://github.com/softprops/hubcaps);
 
 ## Contributing
 
-See [CONTRIBUTING](.github/CONTRIBUTING.md).
+See the [Contributing Guidelines](.github/CONTRIBUTING.md).
 
 ## License
 
