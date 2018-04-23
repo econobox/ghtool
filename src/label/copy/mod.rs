@@ -126,28 +126,28 @@ pub mod details {
                 .takes_value(true)
                 .required(true),
             // --clear
-            Arg::with_name("clear")
-                .short("c")
-                .long("clear")
-                .help(
-                    "Clear the existing labels from the repository specified by <TO> before copying the new ones"
-                ),
+//            Arg::with_name("clear")
+//                .short("c")
+//                .long("clear")
+//                .help(
+//                    "Clear the existing labels from the repository specified by <TO> before copying the new ones"
+//                ),
             // --merge
-            Arg::with_name("merge")
-                .short("m")
-                .long("merge")
-                .help(
-                    "Attempt to merge the existing labels in the repository specified by <TO> with the ones being \
-                    copied. Unless the --yes flag is specified, confirmation will be requested before modifying each \
-                    existing label."
-                ),
+//            Arg::with_name("merge")
+//                .short("m")
+//                .long("merge")
+//                .help(
+//                    "Attempt to merge the existing labels in the repository specified by <TO> with the ones being \
+//                    copied. Unless the --yes flag is specified, confirmation will be requested before modifying each \
+//                    existing label."
+//                ),
             // --yes
-            Arg::with_name("yes")
-                .short("y")
-                .long("yes")
-                .help(
-                    "Automatic yes to prompts; assume \"yes\" as an answer to all prompts and run non-interactively.",
-                ),
+//            Arg::with_name("yes")
+//                .short("y")
+//                .long("yes")
+//                .help(
+//                    "Automatic yes to prompts; assume \"yes\" as an answer to all prompts and run non-interactively.",
+//                ),
         ]
     }
 }
