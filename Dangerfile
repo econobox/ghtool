@@ -6,7 +6,7 @@ welcome_message.greet
 declared_trivial = github.pr_title.include? "#trivial"
 
 # Mention some potential reviewers, excluding the bot
-mention.run(2, [], ["econobot"])
+# mention.run(2, [], ["econobot"])
 
 # Make it more obvious that a PR is a work in progress and shouldn't be merged yet
 warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
@@ -18,4 +18,4 @@ warn("Big PR") if git.lines_of_code > 500
 changelog.check
 
 # Check for conflicts between PRs
-conflict_checker.check_conflict_and_comment
+# conflict_checker.check_conflict_and_comment
