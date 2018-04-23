@@ -23,6 +23,12 @@ GEM
       no_proxy_fix
       octokit (~> 4.7)
       terminal-table (~> 1)
+    danger-changelog (0.2.1)
+      danger-plugin-api (~> 1.0)
+    danger-mention (0.6.1)
+      danger (>= 2.0.0)
+    danger-plugin-api (1.0.0)
+      danger (> 2.0)
     faraday (0.15.0)
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (1.3.1)
@@ -48,6 +54,8 @@ PLATFORMS
 
 DEPENDENCIES
   danger!
+  danger-changelog!
+  danger-mention!
 
 BUNDLED WITH
    1.16.1
