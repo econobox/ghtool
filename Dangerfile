@@ -16,3 +16,6 @@ warn("Big PR") if git.lines_of_code > 500
 
 # Check for/format of Changelog changes.
 changelog.check
+
+# Check for conflicts between PRs
+conflict_checker.check_conflict_and_comment
