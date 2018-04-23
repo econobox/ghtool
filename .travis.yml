@@ -18,6 +18,21 @@ jobs:
       rust: nightly
       cache: cargo
       if: type = pull_request AND branch = master
+    - stage: docs
+      language: rust
+      rust: stable
+      cache: cargo
+      before_script:
+        - |
+            pip install 'travis-cargo<0.2' --user &&
+            export PATH=$HOME/.local/bin:$PATH
+      script:
+        - |
+            travis-cargo build &&
+            travis-cargo doc
+      after_success:
+        - travis-cargo doc-upload
+      if type = push AND branch IN (master, travis-docs)
   allow_failures:
     - rust: nightly
   fast_finish: true
@@ -25,6 +40,7 @@ jobs:
 stages:
   - danger
   - test
+  - docs
 
 notifications:
   email: false
