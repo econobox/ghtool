@@ -18,5 +18,5 @@
 //  limitations under the License.
 //
 
-pub mod repo;
 pub mod error;
+pub mod repo;

@@ -21,6 +21,7 @@
 use std::error;
 use std::fmt;
 
+use super::copy::error::CopyError;
 use super::list::error::ListError;
 use util::error::ArgError;
 
@@ -29,6 +30,7 @@ pub enum Error<'a> {
     NoSubcommand,
     ArgError(ArgError<'a>),
     ListError(ListError),
+    CopyError(CopyError),
 }
 
 impl<'a> fmt::Display for Error<'a> {
@@ -37,6 +39,7 @@ impl<'a> fmt::Display for Error<'a> {
             Error::NoSubcommand => write!(f, "No subcommand provided"),
             Error::ArgError(ref arg_err) => write!(f, "Argument error: {}", arg_err),
             Error::ListError(ref list_err) => write!(f, "List error: {}", list_err),
+            Error::CopyError(ref copy_err) => write!(f, "Copy error: {}", copy_err),
         }
     }
 }
@@ -47,6 +50,7 @@ impl<'a> error::Error for Error<'a> {
             Error::NoSubcommand => "NoSubcommand",
             Error::ArgError(_) => "ArgError",
             Error::ListError(_) => "ListError",
+            Error::CopyError(_) => "CopyError",
         }
     }
 }

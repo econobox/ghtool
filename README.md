@@ -10,7 +10,7 @@ itself.
 
 - [x] List the labels in a repository
       ([#3](https://github.com/sorenmortensen/ghtool/issues/3)).
-- [ ] Copy labels from one repository to another
+- [x] Copy labels from one repository to another
       ([#4](https://github.com/sorenmortensen/ghtool/issues/4)).
 
 ## hubcaps
