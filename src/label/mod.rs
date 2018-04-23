@@ -34,7 +34,11 @@ pub fn run<'a>(parent_config: Config, matches: &'a ArgMatches) -> Result<(), Err
                 .map_err(|err| Error::ArgError(err))?;
             list::run(config).map_err(|err| Error::ListError(err))
         }
-        ("copy", Some(_copy_matches)) => Ok(()),
+        ("copy", Some(copy_matches)) => {
+            let config = copy::config::Config::from_matches(parent_config, &copy_matches)
+                .map_err(|err| Error::ArgError(err))?;
+            copy::run(config).map_err(|err| Error::CopyError(err))
+        }
         ("", None) => {
             let _ = details::app().print_help();
             Err(Error::NoSubcommand)
@@ -80,6 +84,6 @@ pub mod details {
 
     /// This command's description.
     fn description() -> &'static str {
-        env!("CARGO_PKG_DESCRIPTION")
+        "Make modifications to the issue labels in a GitHub repository"
     }
 }

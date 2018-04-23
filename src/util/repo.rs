@@ -23,6 +23,7 @@ use regex::Regex;
 use std::fmt;
 
 /// The path to a GitHub repository, in the form "user/repository".
+#[derive(Clone)]
 pub struct Repo {
     /// The username of the repository owner.
     pub user: String,
