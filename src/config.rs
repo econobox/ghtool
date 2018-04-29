@@ -73,7 +73,7 @@ pub struct StoredConfig {
 impl StoredConfig {
     /// Attempts to load and parse a configuration file from the default location.
     pub fn try_load() -> Result<StoredConfig, ConfigError> {
-        config_contents().and_then(|contents| {
+        Self::config_contents().and_then(|contents| {
             toml::from_str::<StoredConfig>(&contents[..])
                 .map_err(|err| ConfigError::ParseError(err))
         })
@@ -81,36 +81,36 @@ impl StoredConfig {
 
     /// Returns whether a configuration file exists at the default path.
     pub fn file_exists() -> bool {
-        match config_path() {
+        match Self::config_path() {
             Some(path) => path.exists(),
             None => false,
         }
     }
-}
 
-/// Get the path to the user's ghlabelcpy config file, or `None` if it isn't possible to determine their home directory.
-fn config_path() -> Option<PathBuf> {
-    env::home_dir().map(|mut path| {
-        path.push(".config/ghtool/config.toml");
-        path
-    })
-}
+    /// Get the path to the user's ghlabelcpy config file, or `None` if it isn't possible to determine their home directory.
+    fn config_path() -> Option<PathBuf> {
+        env::home_dir().map(|mut path| {
+            path.push(".config/ghtool/config.toml");
+            path
+        })
+    }
 
-/// Get a reference to the user's ghtool config file, if possible.
-fn config_file() -> Result<File, ConfigError> {
-    config_path()
-        .ok_or(ConfigError::FileMissing)
-        .and_then(|path| File::open(path).map_err(|err| ConfigError::IoError(err)))
-}
+    /// Get a reference to the user's ghtool config file, if possible.
+    fn config_file() -> Result<File, ConfigError> {
+        Self::config_path()
+            .ok_or(ConfigError::FileMissing)
+            .and_then(|path| File::open(path).map_err(|err| ConfigError::IoError(err)))
+    }
 
-/// Get the contents of the user's ghtool config file as a `String`, if possible.
-fn config_contents() -> Result<String, ConfigError> {
-    config_file().and_then(|mut file| {
-        let mut contents = String::new();
-        file.read_to_string(&mut contents)
-            .map_err(|err| ConfigError::IoError(err))
-            .and(Ok(contents))
-    })
+    /// Get the contents of the user's ghtool config file as a `String`, if possible.
+    fn config_contents() -> Result<String, ConfigError> {
+        Self::config_file().and_then(|mut file| {
+            let mut contents = String::new();
+            file.read_to_string(&mut contents)
+                .map_err(|err| ConfigError::IoError(err))
+                .and(Ok(contents))
+        })
+    }
 }
 
 /// Errors that arise in the process of reading the user's config file.
